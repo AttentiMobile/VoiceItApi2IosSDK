@@ -16,6 +16,11 @@
 -(void)doLivenessDetection;
 -(void)setupLivenessCircles;
 -(void)resetVariables;
+-(void)showGreenCircleRightUnfilled;
+-(void)showGreenCircleLeftUnfilled;
+-(void)showGreenCircleLeft:(BOOL) showCircle;
+-(void)showGreenCircleRight:(BOOL) showCircle;
+
 
 @property NSTimer * timer;
 @property int currentChallenge;
