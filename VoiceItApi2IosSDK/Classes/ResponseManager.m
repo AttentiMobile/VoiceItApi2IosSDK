@@ -10,11 +10,11 @@
 
 @implementation ResponseManager
 +(NSString *)getMessage:(NSString*) name{
-    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
-    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-    NSBundle  * bundle = [[NSBundle alloc] initWithURL:bundleURL];
-    NSString *finalString = NSLocalizedStringFromTableInBundle(name, @"Prompts", bundle, nil);
-    //    NSString *finalString = NSLocalizedString(name, nil);
+    //    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+    //    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+    //    NSBundle  * bundle = [[NSBundle alloc] initWithURL:bundleURL];
+    ////    NSString *finalString = NSLocalizedStringFromTableInBundle(name, @"Prompts", bundle, nil);
+    NSString *finalString = NSLocalizedString(name, nil);
     return finalString;
 }
 
@@ -26,3 +26,4 @@
     return finalString;
 }
 @end
+
