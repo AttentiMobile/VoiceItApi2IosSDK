@@ -22,12 +22,12 @@
     self.livenessSuccess = livenessPassed;
     self.livenessFailed = livenessFailed;
     self.numberOfLivenessFailsAllowed = lFA;
-    self.smileString = smileString
-    self.blinkString = blinkString
-    self.leftString = leftString
-    self.rightString = rightString
-    self.livenessSuccesstring = livenessSuccessString
-    self.livenessTryAgainString = livenessTryAgainString
+    self.smileString = smileString;
+    self.blinkString = blinkString;
+    self.leftString = leftString;
+    self.rightString = rightString;
+    self.livenessSuccesstring = livenessSuccessString;
+    self.livenessTryAgainString = livenessTryAgainString;
     
     [self resetVariables];
     // Initialize the face detector.
