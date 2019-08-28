@@ -20,7 +20,7 @@
 -(void)showGreenCircleLeftUnfilled;
 -(void)showGreenCircleLeft:(BOOL) showCircle;
 -(void)showGreenCircleRight:(BOOL) showCircle;
-
+-(void)setMessage:(NSString *) newMessage;
 
 @property NSTimer * timer;
 @property int currentChallenge;
