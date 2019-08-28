@@ -12,7 +12,7 @@
 
 @implementation Liveness
 
-- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA smileString:(NSString*)smileString blinkString:(NSString*)blinkString leftString:(NSString*)leftString rightString:(NSString*)rightString livenessSuccessString:(NSString*)livenessSuccessString livenessTryAgainString:(NSString*)livenessTryAgainString livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed{
+- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed{
     self.masterViewController = mVC;
     self.cameraCenterPoint = cCP;
     self.backgroundWidthHeight = bgWH;
@@ -22,12 +22,6 @@
     self.livenessSuccess = livenessPassed;
     self.livenessFailed = livenessFailed;
     self.numberOfLivenessFailsAllowed = lFA;
-    self.smileString = smileString;
-    self.blinkString = blinkString;
-    self.leftString = leftString;
-    self.rightString = rightString;
-    self.livenessSuccesstring = livenessSuccessString;
-    self.livenessTryAgainString = livenessTryAgainString;
     
     [self resetVariables];
     // Initialize the face detector.
@@ -198,23 +192,23 @@
     switch (self.currentChallenge) {
         case 0:
             //SMILE
-            [self setMessage:self.smileString];
+            [self setMessage:[ResponseManager getMessage:@"SMILE"]];
             [self startTimer:2.5];
             break;
         case 1:
             //Blink
-            [self setMessage:self.blinkString];
+            [self setMessage:[ResponseManager getMessage:@"BLINK"]];
             [self startTimer:3.0];
             break;
         case 2:
             //Move head left
-            [self setMessage:self.leftString];
+            [self setMessage:[ResponseManager getMessage:@"FACE_LEFT"]];
             [self startTimer:2.5];
             [self showGreenCircleLeftUnfilled];
             break;
         case 3:
             //Move head right
-            [self setMessage:self.rightString];
+            [self setMessage:[ResponseManager getMessage:@"FACE_RIGHT"]];
             [self startTimer:2.5];
             [self showGreenCircleRightUnfilled];
             break;
@@ -226,7 +220,7 @@
 -(void)livenessChallengePassed {
     self.livenessChallengeIsHappening = NO;
     self.successfulChallengesCounter++;
-    [self setMessage:self.livenessSuccessString];
+    [self setMessage:[ResponseManager getMessage:@"LIVENESS_SUCCESS"]];
     [self stopTimer];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
@@ -237,7 +231,7 @@
 
 -(void)livenessChallengeTryAgain {
     self.livenessChallengeIsHappening = NO;
-    [self setMessage:self.livenessTryAgainString];
+    [self setMessage:[ResponseManager getMessage:@"LIVENESS_TRY_AGAIN"]];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self doLivenessDetection];

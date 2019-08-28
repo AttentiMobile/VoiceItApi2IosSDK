@@ -11,7 +11,7 @@
 
 @interface Liveness : NSObject
 
-- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA smileString:(NSString*)smileString blinkString:(NSString*)blinkString leftString:(NSString*)leftString rightString:(NSString*)rightString livenessSuccessString:(NSString*)livenessSuccessString livenessTryAgainString:(NSString*)livenessTryAgainString livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed;
+- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed;
 -(void)processFrame:(CMSampleBufferRef)sampleBuffer;
 -(void)doLivenessDetection;
 -(void)setupLivenessCircles;
@@ -47,12 +47,6 @@
 @property BOOL smileFound;
 @property int faceDirection;
 @property int blinkState;
-@property (nonatomic, strong) NSString* smileString;
-@property (nonatomic, strong) NSString* blinkString;
-@property (nonatomic, strong) NSString* leftString;
-@property (nonatomic, strong) NSString* rightString;
-@property (nonatomic, strong) NSString* livenessSuccesstring;
-@property (nonatomic, strong) NSString* livenessTryAgainString;
 
 #pragma mark - Left Right Circle Related Code
 
