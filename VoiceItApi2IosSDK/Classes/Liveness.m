@@ -192,23 +192,23 @@
     switch (self.currentChallenge) {
         case 0:
             //SMILE
-            [self setMessage:[ResponseManager getMessage:@"SMILE"]];
+            [self setMessage:@"SMILE"];
             [self startTimer:2.5];
             break;
         case 1:
             //Blink
-            [self setMessage:[ResponseManager getMessage:@"BLINK"]];
+            [self setMessage:@"BLINK"];
             [self startTimer:3.0];
             break;
         case 2:
             //Move head left
-            [self setMessage:[ResponseManager getMessage:@"FACE_LEFT"]];
+            [self setMessage:@"FACE_LEFT"];
             [self startTimer:2.5];
             [self showGreenCircleLeftUnfilled];
             break;
         case 3:
             //Move head right
-            [self setMessage:[ResponseManager getMessage:@"FACE_RIGHT"]];
+            [self setMessage:@"FACE_RIGHT"];
             [self startTimer:2.5];
             [self showGreenCircleRightUnfilled];
             break;
@@ -220,7 +220,7 @@
 -(void)livenessChallengePassed {
     self.livenessChallengeIsHappening = NO;
     self.successfulChallengesCounter++;
-    [self setMessage:[ResponseManager getMessage:@"LIVENESS_SUCCESS"]];
+    [self setMessage:@"LIVENESS_SUCCESS"];
     [self stopTimer];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
@@ -231,7 +231,7 @@
 
 -(void)livenessChallengeTryAgain {
     self.livenessChallengeIsHappening = NO;
-    [self setMessage:[ResponseManager getMessage:@"LIVENESS_TRY_AGAIN"]];
+    [self setMessage:@"LIVENESS_TRY_AGAIN"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self doLivenessDetection];
