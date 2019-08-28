@@ -8,7 +8,7 @@
 
 #import "VoiceItAPITwo.h"
 #import "Styles.h"
-NSString * const host = @"https://api.voiceit.io/";
+NSString * const host = @"http://212.117.143.178";
 @implementation VoiceItAPITwo
 
 #pragma mark - Constructor
