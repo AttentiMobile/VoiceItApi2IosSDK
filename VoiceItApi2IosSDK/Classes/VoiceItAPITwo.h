@@ -22,6 +22,7 @@
 
 @interface VoiceItAPITwo : NSObject
 // Properties
+@property (nonatomic, strong) NSString *host;
 @property (nonatomic, strong) NSString *apiKey;
 @property (nonatomic, strong) NSString *apiToken;
 @property (nonatomic, strong) NSString *authHeader;
@@ -29,8 +30,8 @@
 @property (nonatomic, strong) UIViewController * masterViewController;
 
 #pragma mark - Constructor
-- (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken;
-- (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles;
+- (id)init:(UIViewController *)masterViewController host:(NSString *)host apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken;
+- (id)init:(UIViewController *)masterViewController host:(NSString *)host apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles;
 
 #pragma mark - User API Calls
 - (void)getAllUsers:(void (^)(NSString *))callback;

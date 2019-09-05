@@ -8,15 +8,16 @@
 
 #import "VoiceItAPITwo.h"
 #import "Styles.h"
-NSString * const host = @"https://api.voiceit.io/";
 @implementation VoiceItAPITwo
 
 #pragma mark - Constructor
-- (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken {
-    return [self init:masterViewController apiKey:apiKey apiToken:apiToken styles:nil];
+- (id)init:(UIViewController *)masterViewController host:(NSString *)host apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken {
+    return [self init:masterViewController host:host apiKey:apiKey apiToken:apiToken styles:nil];
 }
 
-- (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles {
+- (id)init:(UIViewController *)masterViewController host:(NSString *)host apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles {
+    
+    self.host = host;
     self.apiKey = apiKey;
     self.apiToken = apiToken;
     self.authHeader = [self createAuthHeader];
@@ -1680,7 +1681,7 @@ NSString * const host = @"https://api.voiceit.io/";
 
 -(NSString*)buildURL:(NSString*)endpoint
 {
-    return [[NSString alloc] initWithFormat:@"%@%@", host, endpoint];
+    return [[NSString alloc] initWithFormat:@"%@%@", self.host, endpoint];
 }
 
 -(NSString*)createAuthHeader
