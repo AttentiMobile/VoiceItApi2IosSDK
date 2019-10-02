@@ -345,17 +345,34 @@
         return;
     }
     
-    UIImage *image = [GMVUtility sampleBufferTo32RGBA:sampleBuffer];
-    // Establish the image orientation.
-    UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
-    GMVImageOrientation orientation = [GMVUtility
-                                       imageOrientationFromOrientation:deviceOrientation
-                                       withCaptureDevicePosition:AVCaptureDevicePositionFront
-                                       defaultDeviceOrientation:deviceOrientation];
-    NSDictionary *options = @{GMVDetectorImageOrientation : @(orientation)};
-    // Detect features using GMVDetector.
-    NSArray<GMVFaceFeature *> *faces = [self.faceDetector featuresInImage:image options:options];
     dispatch_sync(dispatch_get_main_queue(), ^{
+        
+        CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        CVPixelBufferLockBaseAddress(imageBuffer,0);        // Lock the image buffer
+        
+        uint8_t *baseAddress = (uint8_t *)CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);   // Get information of the image
+        size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+        size_t width = CVPixelBufferGetWidth(imageBuffer);
+        size_t height = CVPixelBufferGetHeight(imageBuffer);
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        
+        CGContextRef newContext = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+        CGImageRef newImage = CGBitmapContextCreateImage(newContext);
+        CGContextRelease(newContext);
+        
+        CGColorSpaceRelease(colorSpace);
+        CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+        
+        UIImage *image =     [UIImage imageWithCGImage: newImage];
+        // Establish the image orientation.
+        UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+        GMVImageOrientation orientation = [GMVUtility
+                                           imageOrientationFromOrientation:deviceOrientation
+                                           withCaptureDevicePosition:AVCaptureDevicePositionFront
+                                           defaultDeviceOrientation:deviceOrientation];
+        NSDictionary *options = @{GMVDetectorImageOrientation : @(orientation)};
+        // Detect features using GMVDetector.
+        NSArray<GMVFaceFeature *> *faces = [self.faceDetector featuresInImage:image options:options];
         
         // Display detected features in overlay.
         for (GMVFaceFeature *face in faces) {
