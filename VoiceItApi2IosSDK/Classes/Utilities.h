@@ -13,6 +13,13 @@
 #define ENROLLMENT_BACKGROUND_VIEW_Y 110.0
 #define VERIFICATION_BACKGROUND_VIEW_Y 30.0
 
+#ifdef DEBUG
+#define NSLog(args...) ExtendNSLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
+#else
+#define NSLog(x...)
+#endif
+ 
+
 @interface Utilities : NSObject
 +(UIColor *)getGreenColor;
 +(UIColor *)uiColorFromHexString:(NSString *)hexString;
@@ -29,4 +36,5 @@
 +(void)setBottomCornersForCancelButton:(UIButton *)cancelButton;
 +(bool)isBadResponseCode:(NSString*) responseCode;
 +(CGFloat)normalizedPowerLevelFromDecibels:(AVAudioRecorder *)audioRecorder;
+void ExtendNSLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...);
 @end
