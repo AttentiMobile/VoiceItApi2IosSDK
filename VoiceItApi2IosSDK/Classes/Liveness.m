@@ -193,23 +193,23 @@
         case 0:
             //SMILE
             [self setMessage:@"SMILE"];
-            [self startTimer:2.5];
+            [self startTimer:5.0];
             break;
         case 1:
             //Blink
             [self setMessage:@"BLINK"];
-            [self startTimer:3.0];
+            [self startTimer:5.0];
             break;
         case 2:
             //Move head left
             [self setMessage:@"FACE_LEFT"];
-            [self startTimer:2.5];
+            [self startTimer:5.0];
             [self showGreenCircleLeftUnfilled];
             break;
         case 3:
             //Move head right
             [self setMessage:@"FACE_RIGHT"];
-            [self startTimer:2.5];
+            [self startTimer:5.0];
             [self showGreenCircleRightUnfilled];
             break;
         default:
