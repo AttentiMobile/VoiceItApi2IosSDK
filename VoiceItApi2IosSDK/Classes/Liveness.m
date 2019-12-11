@@ -67,6 +67,13 @@
     });
 }
 
+-(void)setMessage:(NSString *) newMessage parameters:(NSArray *)params {
+    dispatch_async(dispatch_get_main_queue(), ^{
+          [self.messageLabel setText: newMessage];
+          [self.messageLabel setAdjustsFontSizeToFitWidth:YES];
+      });
+}
+
 -(void)setupChallengeArray{
     self.challengeArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 4; i++){
@@ -276,7 +283,7 @@
                     [self saveImageData:image];
                     [self livenessChallengePassed];
                 } else {
-                    [self.messageLabel setText: [NSString stringWithFormat:[ResponseManager getMessage:@"Blink %d"], self.blinkCounter]];
+                    [self setMessage:@"Blink %@" parameters: @[[@(self.blinkCounter) stringValue]]];
                 }
             }
         }

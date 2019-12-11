@@ -21,6 +21,7 @@
 -(void)showGreenCircleLeft:(BOOL) showCircle;
 -(void)showGreenCircleRight:(BOOL) showCircle;
 -(void)setMessage:(NSString *) newMessage;
+-(void)setMessage:(NSString *) newMessage parameters:(NSArray *)params;
 
 @property NSTimer * timer;
 @property int currentChallenge;
