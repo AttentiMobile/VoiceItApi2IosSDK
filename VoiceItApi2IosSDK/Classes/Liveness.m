@@ -283,7 +283,7 @@
                     [self saveImageData:image];
                     [self livenessChallengePassed];
                 } else {
-                    [self setMessage:@"Blink %@" parameters: @[[@(self.blinkCounter) stringValue]]];
+                    [self.messageLabel setText: [NSString stringWithFormat:[ResponseManager getMessage:@"Blink %d"], self.blinkCounter]];
                 }
             }
         }
