@@ -222,8 +222,8 @@
     switch (self.currentChallenge) {
         case 0:
             //SMILE
-            [self setMessage:[ResponseManager setMessage:@"SMILE"]];
-            
+            [self setMessage:@"SMILE"];
+
             //Play SMILE.wav
             if (self.audioPromptsIsHappening) {
                 NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
@@ -243,8 +243,8 @@
             break;
         case 1:
             //Blink
-            [self setMessage:[ResponseManager setMessage:@"BLINK"]];
-            
+            [self setMessage:@"BLINK"];
+
             //Play BLINK.wav
             if (self.audioPromptsIsHappening) {
                 NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
@@ -264,7 +264,7 @@
             break;
         case 2:
             //Move head left
-            [self setMessage:[ResponseManager setMessage:@"FACE_LEFT"]];
+            [self setMessage:@"FACE_LEFT"];
 
             //Play FACE_LEFT.wav
             if (self.audioPromptsIsHappening) {
@@ -285,7 +285,7 @@
             break;
         case 3:
             //Move head right
-            [self setMessage:[ResponseManager setMessage:@"FACE_RIGHT"]];
+            [self setMessage:@"FACE_RIGHT"];
 
             //Play FACE_RIGHT.wav
             if (self.audioPromptsIsHappening) {
@@ -313,7 +313,7 @@
     self.livenessChallengeIsHappening = NO;
     self.successfulChallengesCounter++;
 
-    [self setMessage:[ResponseManager setMessage:@"LIVENESS_SUCCESS"]];
+    [self setMessage:@"LIVENESS_SUCCESS"];
     [self stopTimer];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
