@@ -442,7 +442,8 @@
     
 }
 
--(void)processFrame:(CMSampleBufferRef)sampleBuffer{
+
+-(void)processFrame:(CMSampleBufferRef)sampleBuffer {
     if(!self.livenessChallengeIsHappening || !self.continueRunning){
         return;
     }
@@ -450,7 +451,6 @@
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     if (pixelBuffer == NULL) { return; }
     
-
     // Create CIImage for faceDetector
     CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
     // Used for Portrait
@@ -462,17 +462,6 @@
     // Detect features using CIFaceFeatures
     NSArray<CIFeature *> *faces = [self.faceDetector featuresInImage:image options:options];
     dispatch_sync(dispatch_get_main_queue(), ^{
-        
-        UIImage *image = [self imageFromCMSampleBufferRef:sampleBuffer];
-        // Establish the image orientation.
-        UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
-        GMVImageOrientation orientation = [GMVUtility
-                                           imageOrientationFromOrientation:deviceOrientation
-                                           withCaptureDevicePosition:AVCaptureDevicePositionFront
-                                           defaultDeviceOrientation:deviceOrientation];
-        NSDictionary *options = @{GMVDetectorImageOrientation : @(orientation)};
-        // Detect features using GMVDetector.
-        NSArray<GMVFaceFeature *> *faces = [self.faceDetector featuresInImage:image options:options];
         
         // Display detected features in overlay.
         for (CIFaceFeature *face in faces) {
@@ -499,26 +488,6 @@
             }
         }
     });
-}
-
--(UIImage *)imageFromCMSampleBufferRef:(CMSampleBufferRef)sampleBuffer{
-           CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-           CVPixelBufferLockBaseAddress(imageBuffer,0);        // Lock the image buffer
-           
-           uint8_t *baseAddress = (uint8_t *)CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);   // Get information of the image
-           size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-           size_t width = CVPixelBufferGetWidth(imageBuffer);
-           size_t height = CVPixelBufferGetHeight(imageBuffer);
-           CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-           
-           CGContextRef newContext = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-           CGImageRef newImage = CGBitmapContextCreateImage(newContext);
-           CGContextRelease(newContext);
-           
-           CGColorSpaceRelease(colorSpace);
-           CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-    
-           return [UIImage imageWithCGImage: newImage];
 }
 
 @end
