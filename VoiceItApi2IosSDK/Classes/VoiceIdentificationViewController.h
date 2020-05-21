@@ -2,7 +2,7 @@
 //  VoiceIdentificationViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 8/28/18.
+//  Created by VoiceIt Technolopgies, LLC on 8/28/18.
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -20,7 +20,7 @@
 
 #pragma mark -  Graphics/UI/Constraints/Animations
 @property CGFloat originalMessageLeftConstraintContstant;
-@property (weak, nonatomic) IBOutlet UIView *verificationBox;
+@property (weak, nonatomic) IBOutlet UIView *identificationBox;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
 

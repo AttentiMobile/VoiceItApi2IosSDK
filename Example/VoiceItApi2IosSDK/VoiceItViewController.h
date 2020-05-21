@@ -2,8 +2,8 @@
 //  VoiceItViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by armaanbindra on 03/23/2017.
-//  Copyright (c) 2017 armaanbindra. All rights reserved.
+//  Created by VoiceIt Technologies, LLC on 03/23/2017.
+//  Copyright (c) 2017 VoiceIt Technologies, LLC. All rights reserved.
 //
 
 @import UIKit;
@@ -12,6 +12,7 @@
 @interface VoiceItViewController : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource>
 @property VoiceItAPITwo * myVoiceIt;
 @property (weak, nonatomic) IBOutlet UISwitch *livenessToggle;
+@property (weak, nonatomic) IBOutlet UISwitch *audioPromptsToggle;
 @property NSString * API_KEY;
 @property NSString * API_TOKEN;
 @property NSString * TEST_USER_ID_ONE;

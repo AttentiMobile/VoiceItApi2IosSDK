@@ -2,7 +2,7 @@
 //  VideoVerificationViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/23/18.
+//  Created by VoiceIt Technolopgies, LLC on 3/23/18.
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -14,6 +14,7 @@
 @interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
 #pragma mark - Audio Recording Stuff
 @property (nonatomic, strong) AVAudioRecorder * audioRecorder;
 @property (nonatomic, strong) NSString *audioPath;
@@ -43,6 +44,7 @@
 @property BOOL isRecording;
 @property BOOL continueRunning;
 @property BOOL doLivenessDetection;
+@property BOOL doAudioPrompts;
 @property BOOL imageNotSaved;
 @property BOOL verificationStarted;
 

@@ -2,7 +2,7 @@
 //  Utilities.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 10/2/17.
+//  Created by VoiceIt Technolopgies, LLC on 10/2/17.
 //  Copyright © 2017 VoiceIt Technologies LLC. All rights reserved.
 //
 
@@ -86,9 +86,7 @@
         NSLog(@"thumbnailImageGenerationError %@", igError );
     }
     
-    UIImage *image = thumbnailImageRef
-    ? [[UIImage alloc] initWithCGImage:thumbnailImageRef]
-    : nil;
+    UIImage *image = thumbnailImageRef ? [[UIImage alloc] initWithCGImage:thumbnailImageRef] : nil;
     NSData *imageData = nil;
     if ( image != nil){
         imageData  = UIImageJPEGRepresentation(image, 0.5);

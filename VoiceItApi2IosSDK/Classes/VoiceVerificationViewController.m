@@ -2,7 +2,7 @@
 //  VoiceVerificationViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/24/18.
+//  Created by VoiceIt Technolopgies, LLC on 3/24/18.
 //
 
 #import "VoiceVerificationViewController.h"
@@ -133,6 +133,7 @@
     
     self.audioPath = [Utilities pathForTemporaryFileWithSuffix:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:self.audioPath];
+    
     err = nil;
     self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[Utilities getRecordingSettings] error:&err];
     if(!self.audioRecorder){

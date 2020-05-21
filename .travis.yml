@@ -2,7 +2,8 @@ language: objective-c
 podfile: Example/Podfile
 xcode_workspace: Example/VoiceItApi2IosSDK.xcworkspace
 xcode_scheme:  VoiceItApi2IosSDK-Example
-xcode_destination: platform=iOS Simulator,OS=11.4,name=iPhone X
+osx_image: xcode11.3
+xcode_destination: platform=iOS Simulator,OS=13.3,name=iPhone 8 Plus
 after_success:
   - ./email.sh
 notifications:

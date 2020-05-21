@@ -2,8 +2,8 @@
 //  VoiceItViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by armaanbindra on 03/23/2017.
-//  Copyright (c) 2017 armaanbindra. All rights reserved.
+//  Created by VoiceIt Technologies, LLC on 03/23/2017.
+//  Copyright (c) 2017 VoiceIt Technologies, LLC. All rights reserved.
 //
 
 #import "VoiceItViewController.h"
@@ -97,6 +97,7 @@
     NSLog(@"FACE IDENTIFICATION CLICKED");
     [self.myVoiceIt encapsulatedFaceIdentification:self.TEST_GROUP_ID
                                doLivenessDetection:self.livenessToggle.isOn
+                                    doAudioPrompts:self.audioPromptsToggle.isOn
     userIdentificationCancelled:^{
         NSLog(@"User Face Identification Cancelled");
     } userIdentificationSuccessful:^(float voiceConfidence , NSString * foundUserId, NSString * jsonResponse){
@@ -114,6 +115,7 @@
                                     contentLanguage:self.TEST_CONTENT_LANGUAGE
                                    voicePrintPhrase:self.TEST_PHRASE
                                 doLivenessDetection:self.livenessToggle.isOn
+                                     doAudioPrompts:self.audioPromptsToggle.isOn
     userIdentificationCancelled:^{
         NSLog(@"User Video Identification Cancelled");
     } userIdentificationSuccessful:^(float voiceConfidence , float faceConfidence, NSString * foundUserId, NSString * jsonResponse){
@@ -128,6 +130,7 @@
 - (IBAction)faceVerificationClicked:(id)sender {
     [self.myVoiceIt encapsulatedFaceVerification:self.TEST_USER_ID
                              doLivenessDetection:self.livenessToggle.isOn
+                                  doAudioPrompts:self.audioPromptsToggle.isOn
     userVerificationCancelled:^{
         NSLog(@"User Face Verification Cancelled");
     } userVerificationSuccessful:^(float faceConfidence , NSString * jsonResponse){
@@ -142,6 +145,7 @@
                                   contentLanguage:self.TEST_CONTENT_LANGUAGE
                                  voicePrintPhrase:self.TEST_PHRASE
                               doLivenessDetection:self.livenessToggle.isOn
+                                   doAudioPrompts:self.audioPromptsToggle.isOn
     userVerificationCancelled:^{
          NSLog(@"User Verication Cancelled");
     } userVerificationSuccessful:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){

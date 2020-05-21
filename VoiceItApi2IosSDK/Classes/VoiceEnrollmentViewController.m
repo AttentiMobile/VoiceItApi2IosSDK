@@ -2,7 +2,7 @@
 //  VoiceEnrollmentViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 5/7/18.
+//  Created by VoiceIt Technolopgies, LLC on 5/7/18.
 //
 
 #import "VoiceEnrollmentViewController.h"
@@ -13,9 +13,9 @@
 @end
 
 @implementation VoiceEnrollmentViewController
-    
+
 #pragma mark - Life Cycle Methods
-    
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.messageLabel.textColor  = [Utilities uiColorFromHexString:@"#FFFFFF"];
@@ -25,12 +25,12 @@
     self.thePhrase =  self.myNavController.voicePrintPhrase;
     self.contentLanguage =  self.myNavController.contentLanguage;
     self.userToEnrollUserId = self.myNavController.uniqueId;
-    
+
     // Setup Cancel Button on top left of navigation controller
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithTitle:[ResponseManager getMessage:@"CANCEL"] style:UIBarButtonItemStylePlain target:self action:@selector(cancelClicked)];
     leftBarButton.tintColor = [Utilities uiColorFromHexString:@"#FFFFFF"];
     [self.navigationItem setLeftBarButtonItem:leftBarButton];
-    
+
     // Initialize Boolean and All
     self.enrollmentStarted = NO;
     self.continueRunning  = YES;
@@ -73,7 +73,7 @@
         [[self navigationItem] setTitle: newTitle];
     });
 }
-    
+
 -(void)startDelayedRecording:(NSTimeInterval)delayTime{
     NSLog(@"Starting Delayed RECORDING with delayTime %f ", delayTime);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -91,18 +91,22 @@
 -(void)startRecording {
     NSLog(@"Starting RECORDING");
     self.isRecording = YES;
-    self.audioSession = [AVAudioSession sharedInstance];
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err;
-    [self.audioSession setCategory:AVAudioSessionCategoryRecord error:&err];
+    [audioSession setCategory:AVAudioSessionCategoryRecord error:&err];
     if (err)
     {
         NSLog(@"%@ %ld %@", [err domain], (long)[err code], [[err userInfo] description]);
     }
     err = nil;
-    
+    if (err)
+    {
+        NSLog(@"%@ %ld %@", [err domain], (long)[err code], [[err userInfo] description]);
+    }
+
     self.audioPath = [Utilities pathForTemporaryFileWithSuffix:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:self.audioPath];
-    
+
     err = nil;
     self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[Utilities getRecordingSettings] error:&err];
     if(!self.audioRecorder){
@@ -113,7 +117,6 @@
     [self.audioRecorder prepareToRecord];
     [self.audioRecorder setMeteringEnabled:YES];
     [self.audioRecorder recordForDuration:4.8];
-    
 }
 
 -(void)recordingStopped{
@@ -121,7 +124,7 @@
 }
 
 -(void)startEnrollmentProcess {
-    [self.myVoiceIt deleteAllVoiceEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
                 NSLog(@"DELETING ENROLLMENTS IN THE BEGINNING %@",deleteEnrollmentsJSONResponse);
                 [self startDelayedRecording:0.0];
     }];
@@ -175,11 +178,12 @@
 }
 
 -(void)cancelClicked{
-    [self.myVoiceIt deleteAllVoiceEnrollments:_userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-    }];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+    });
 }
 
 #pragma mark - AVAudioRecorderDelegate Methods
@@ -244,7 +248,7 @@
 }
 
 #pragma mark - Cleanup Methods
-    
+
 -(void)cleanupEverything {
     [self setAudioSessionInactive];
     self.continueRunning = NO;

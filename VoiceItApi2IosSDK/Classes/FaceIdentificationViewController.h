@@ -2,7 +2,7 @@
 //  FaceIdentificationViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/17/18.
+//  Created by VoiceIt Technolopgies, LLC on 3/17/18.
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -17,17 +17,17 @@
 
 #pragma mark -  Graphics/UI/Constraints/Animations
 @property CGFloat originalMessageLeftConstraintContstant;
-@property (weak, nonatomic) IBOutlet UIView *verificationBox;
+@property (weak, nonatomic) IBOutlet UIView *identificationBox;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
-@property  CGPoint cameraCenterPoint;
+@property CGPoint cameraCenterPoint;
 @property CAShapeLayer * progressCircle;
 @property CALayer * cameraBorderLayer;
 @property CALayer * faceRectangleLayer;
 @property CALayer *rootLayer;
 
 #pragma mark -  Camera Related Stuff
-@property  AVCaptureSession * captureSession;
+@property AVCaptureSession * captureSession;
 @property AVCaptureDevice * videoDevice;
 @property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
@@ -40,6 +40,7 @@
 @property BOOL continueRunning;
 @property BOOL enoughRecordingTimePassed;
 @property BOOL doLivenessDetection;
+@property BOOL doAudioPrompts;
 @property BOOL verificationStarted;
 @property BOOL isReadyToWrite;
 

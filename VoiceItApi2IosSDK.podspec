@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'VoiceItApi2IosSDK'
-s.version          = '2.0.3'
+s.version          = '2.0.8'
 s.summary          = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt.'
 
 # This description is used to generate tags and improve search results.
@@ -20,12 +20,11 @@ s.summary          = 'A pod that lets you add voice and face verification and id
 s.description      = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt. Now also with basic liveness detection challenges. Please visit https://voiceit.io to learn more and sign up for an account.'
 s.homepage         = 'https://github.com/voiceittech/VoiceItApi2IosSDK'
 s.license          = { :type => 'MIT', :file => 'LICENSE' }
-s.author           = { 'armaanbindra' => 'armaan@voiceit.io' }
+s.author           = { 'voiceit' => 'support@voiceit.io' }
 s.source           = { :git => 'https://github.com/voiceittech/VoiceItApi2IosSDK.git', :tag => s.version.to_s }
 
 s.ios.deployment_target = '10.0'
 s.static_framework = true
-s.dependency 'GoogleMobileVision/FaceDetector'
 s.source_files = 'VoiceItApi2IosSDK/Classes/**/*.{h,m}'
 
 s.resource_bundles = {
