@@ -541,6 +541,96 @@ NSString * const platformId = @"41";
     [task resume];
 }
 
+- (void)deleteVoiceEnrollment:(NSString *)userId voiceEnrollmentId:(NSInteger)voiceEnrollmentId callback:(void (^)(NSString *))callback{
+
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Delete Voice Enrollment"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/voice"], userId, (long) voiceEnrollmentId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   // Add Call to Callback function passing in result
+                   callback(result);
+               }];
+    [task resume];
+}
+
+- (void)deleteFaceEnrollment:(NSString *)userId faceEnrollmentId:(NSInteger)faceEnrollmentId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Delete Face Enrollment"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/face"], userId, (long) faceEnrollmentId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   // Add Call to Callback function passing in result
+                   callback(result);
+               }];
+    [task resume];
+}
+
+- (void)deleteVideoEnrollment:(NSString *)userId videoEnrollmentId:(NSInteger)videoEnrollmentId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Delete Video Enrollment"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/video"], userId, (long) videoEnrollmentId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   // Add Call to Callback function passing in result
+                   callback(result);
+               }];
+    [task resume];
+}
+
 - (void)deleteAllEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
 
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
@@ -563,6 +653,64 @@ NSString * const platformId = @"41";
                completionHandler:^(NSData *data, NSURLResponse *response,
                                    NSError *error) {
 
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   callback(result);
+               }];
+    [task resume];
+}
+
+- (void)deleteAllFaceEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Delete All Face Enrollments"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/face",[self buildURL:@"enrollments"], userId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   callback(result);
+               }];
+    [task resume];
+}
+
+- (void)deleteAllVideoEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Delete All Video Enrollments"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/video",[self buildURL:@"enrollments"], userId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
                    NSString *result =
                    [[NSString alloc] initWithData:data
                                          encoding:NSUTF8StringEncoding];
@@ -1654,3 +1802,4 @@ NSString * const platformId = @"41";
     return mimetype;
 }
 @end
+
