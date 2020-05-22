@@ -661,6 +661,35 @@ NSString * const platformId = @"41";
     [task resume];
 }
 
+- (void)deleteAllVoiceEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Delete All Voice Enrollments"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/voice",[self buildURL:@"enrollments"], userId]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"41" forHTTPHeaderField:@"platformId"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   callback(result);
+               }];
+    [task resume];
+}
+
 - (void)deleteAllFaceEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
