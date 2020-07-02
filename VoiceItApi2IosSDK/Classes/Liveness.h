@@ -21,6 +21,7 @@
 -(void)showGreenCircleRight:(BOOL) showCircle;
 -(void)setMessage:(NSString *) newMessage;
 -(void)setMessage:(NSString *) newMessage parameters:(NSArray *)params;
+-(void)setupCustomConfiguration:(int) testTimeoutInMilliSeconds delayBetweenTestsInMilliSeconds:(int) delayBetweenTestsInMilliSeconds;
 
 @property NSTimer * timer;
 @property int currentChallenge;
@@ -39,6 +40,11 @@
 @property BOOL audioPromptsIsHappening;
 
 #pragma mark -  Counters to keep track of stuff
+
+
+@property int delayBetweenTestsInMilliSeconds;
+@property int testTimeoutInMilliSeconds;
+
 @property int numberOfLivenessFailsAllowed;
 @property int currentChallengeIndex;
 @property int successfulChallengesCounter;

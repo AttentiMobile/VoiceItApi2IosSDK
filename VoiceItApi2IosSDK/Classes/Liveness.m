@@ -84,6 +84,15 @@
       });
 }
 
+-(void)setupCustomConfiguration:(int) testTimeoutInMilliSeconds delayBetweenTestsInMilliSeconds:(int) delayBetweenTestsInMilliSeconds {
+    self.testTimeoutInMilliSeconds          = testTimeoutInMilliSeconds;
+    self.delayBetweenTestsInMilliSeconds    = delayBetweenTestsInMilliSeconds;
+    
+    NSLog(@"testTimeoutInMilliSeconds : %d", self.testTimeoutInMilliSeconds);
+    NSLog(@"delayBetweenTestsInMilliSeconds : %d", self.delayBetweenTestsInMilliSeconds);
+
+}
+
 -(void)setupChallengeArray{
     self.challengeArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 4; i++){
@@ -223,86 +232,24 @@
         case 0:
             //SMILE
             [self setMessage:@"SMILE"];
-
-            //Play SMILE.wav
-            if (self.audioPromptsIsHappening) {
-                NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
-                NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-                NSString *soundFilePath = [NSString stringWithFormat:@"%@/SMILE.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
-                NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-                NSError *error;
-                
-                AVAudioSession *session = [AVAudioSession sharedInstance];
-                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-                self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
-                self.player.numberOfLoops = 0; //Infinite
-                [self.player play];
-            }
-            // How long to wait for liveness Challenge
-            [self startTimer:5.0];
+            [self startTimer:_testTimeoutInMilliSeconds/1000];
             break;
         case 1:
             //Blink
             [self setMessage:@"BLINK"];
-
-            //Play BLINK.wav
-            if (self.audioPromptsIsHappening) {
-                NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
-                NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-                NSString *soundFilePath = [NSString stringWithFormat:@"%@/BLINK.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
-                NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-                NSError *error;
-                
-                AVAudioSession *session = [AVAudioSession sharedInstance];
-                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-                self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
-                self.player.numberOfLoops = 0; //Infinite
-                [self.player play];
-            }
-            // How long to wait for liveness Challenge
-            [self startTimer:5.0];
+            [self startTimer:_testTimeoutInMilliSeconds/1000];
             break;
         case 2:
             //Move head left
             [self setMessage:@"FACE_LEFT"];
-
-            //Play FACE_LEFT.wav
-            if (self.audioPromptsIsHappening) {
-                NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
-                NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-                NSString *soundFilePath = [NSString stringWithFormat:@"%@/FACE_LEFT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
-                NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-                NSError *error;
-                
-                AVAudioSession *session = [AVAudioSession sharedInstance];
-                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-                self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
-                self.player.numberOfLoops = 0; //Infinite
-                [self.player play];
-            }
-            // How long to wait for liveness Challenge
-            [self startTimer:5.0];
+            [self startTimer:_testTimeoutInMilliSeconds/1000];
+            [self showGreenCircleLeftUnfilled];
             break;
         case 3:
             //Move head right
             [self setMessage:@"FACE_RIGHT"];
-
-            //Play FACE_RIGHT.wav
-            if (self.audioPromptsIsHappening) {
-                NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
-                NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-                NSString *soundFilePath = [NSString stringWithFormat:@"%@/FACE_RIGHT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
-                NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-                NSError *error;
-                
-                AVAudioSession *session = [AVAudioSession sharedInstance];
-                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-                self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
-                self.player.numberOfLoops = 0; //Infinite
-                [self.player play];
-            }
-            // How long to wait for liveness Challenge
-            [self startTimer:5.0];
+            [self startTimer:_testTimeoutInMilliSeconds/1000];
+            [self showGreenCircleRightUnfilled];
             break;
         default:
             break;
@@ -312,10 +259,9 @@
 -(void)livenessChallengePassed {
     self.livenessChallengeIsHappening = NO;
     self.successfulChallengesCounter++;
-
     [self setMessage:@"LIVENESS_SUCCESS"];
     [self stopTimer];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (_delayBetweenTestsInMilliSeconds/1000) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self doLivenessDetection];
         }
@@ -325,7 +271,7 @@
 -(void)livenessChallengeTryAgain {
     self.livenessChallengeIsHappening = NO;
     [self setMessage:@"LIVENESS_TRY_AGAIN"];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (_delayBetweenTestsInMilliSeconds/1000) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self doLivenessDetection];
         }
@@ -447,6 +393,8 @@
     if(!self.livenessChallengeIsHappening || !self.continueRunning){
         return;
     }
+    
+    
     // Convert to CIPixelBuffer for faceDetector
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     if (pixelBuffer == NULL) { return; }
